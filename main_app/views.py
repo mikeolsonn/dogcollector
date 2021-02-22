@@ -23,5 +23,5 @@ def home(request):
 def about(request):
     return render(request, 'about.html')
 
-def index(request):
-    return render(request, 'cats/index.html', {'dogs': dogs})
+def dogs_index(request):
+    return render(request, 'dogs/index.html', {'dogs': dogs})
