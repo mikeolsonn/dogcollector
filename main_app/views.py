@@ -12,3 +12,10 @@ def about(request):
 def dogs_index(request):
     dogs = Dog.objects.all()
     return render(request, 'dogs/index.html', {'dogs': dogs})
+
+def dogs_detail(request, dog_id):
+    # query the database for a single cat obj
+    dog = Dog.objects.get(id=dog_id)
+    # return a call to render the detail.html and context dict
+    return render(request, 'dogs/detail.html', {'dog': dog})
+    
