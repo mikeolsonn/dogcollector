@@ -65,6 +65,31 @@
       <p>Go add some!</p>
     {% endif %}
   </div>
+
+  <!-- available toys -->
+  <div class="col s6">
+    <h3>Available Toys</h3>
+    {% if available_toys.count %}
+      {% for toy in available_toys.all %}
+      <div class="card">
+        <div class="card-content">
+          <span class="card-title">
+            A <span style="color: {{ toy.color }}">{{ toy.color }}</span> {{ toy.name }}</span>
+        </div>
+
+        <div class="card-action">
+          <form action="{% url 'assoc_toy' dog.id toy.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn">Add</button>
+          </form>
+        </div>
+      </div>
+
+      {% endfor %}
+    {% else %}
+      <h5>{{ dog.name }} Already Has All The Available Toys</h5>
+    {% endif %}
+  </div>
 </div>
 
 

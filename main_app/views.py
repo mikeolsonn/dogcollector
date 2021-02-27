@@ -20,12 +20,12 @@ def dogs_detail(request, dog_id):
     # query the database for a single dog obj
     dog = Dog.objects.get(id=dog_id)
     # exclude from our query all toys associated w current dog
-    toys_dog_doesnt_have = Toy.objects.exclude(id__in = cat.toys.all().values_list('id'))
+    toys_dog_doesnt_have = Toy.objects.exclude(id__in = dog.toys.all().values_list('id'))
     # create instance of the feedingform
     feeding_form = FeedingForm()
     return render(request,
         'dogs/detail.html',
-        { 'dog': dog, 'feeding_form': feeding_form }
+        { 'dog': dog, 'feeding_form': feeding_form, 'available_toys': toys_dog_doesnt_have }
     )
     # return a call to render the detail.html and context dict
     return render(request, 'dogs/detail.html', {'dog': dog})
@@ -41,6 +41,11 @@ def add_feeding(request, dog_id):
         # attach the dog_id to the feeding BEFORE saving it to the db 
         new_feeding.dog_id = dog_id
         new_feeding.save()
+    return redirect('dogs_detail', dog_id=dog_id)
+
+def assoc_toy(request, dog_id, toy_id):
+    # locate dog and .add the toy by its id
+    Dog.objects.get(id=dog_id).toys.add(toy_id)
     return redirect('dogs_detail', dog_id=dog_id)
 
 class DogCreate(CreateView):
