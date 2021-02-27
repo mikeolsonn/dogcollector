@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Dog
 from .forms import FeedingForm
@@ -26,6 +26,19 @@ def dogs_detail(request, dog_id):
     )
     # return a call to render the detail.html and context dict
     return render(request, 'dogs/detail.html', {'dog': dog})
+
+def add_feeding(request, dog_id):
+    # create feeding form and fice it the form data
+    form = FeedingForm(request.POST)
+    # validate the data
+    if form.is_valid():
+        # save the data
+        # create the feeding butnot save it to the db yet
+        new_feeding = form.save(commit=False)
+        # attach the dog_id to the feeding BEFORE saving it to the db 
+        new_feeding.dog_id = dog_id
+        new_feeding.save()
+    return redirect('dogs_detail', dog_id=dog_id)
 
 class DogCreate(CreateView):
     model = Dog

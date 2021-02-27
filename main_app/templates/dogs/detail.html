@@ -23,10 +23,10 @@
     </div>
   </div>
   <div class="col s6">
-    <form method="POST">
+    <form action="{% url 'add_feeding' dog.id %}" method="POST">
         {% csrf_token %}
         {{ feeding_form.as_p }}
-        <input type="submit" class="btn" value="Add feeding"/>
+        <input type="submit" class="btn" value="Add Feeding"/>
     </form>
     <table class="striped">
       <thead>
@@ -51,7 +51,10 @@
         defaultDate: new Date(),
         setDefaultDate: true,
         autoClose: true
-    })
+    });
+    // meal dropdown
+    var selectEl = document.getElementById('id_meal')
+    M.FormSelect.init(selectEl)
 </script>
 
 {% endblock %}
