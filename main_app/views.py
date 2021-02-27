@@ -17,8 +17,10 @@ def dogs_index(request):
     return render(request, 'dogs/index.html', {'dogs': dogs})
 
 def dogs_detail(request, dog_id):
-    # query the database for a single cat obj
+    # query the database for a single dog obj
     dog = Dog.objects.get(id=dog_id)
+    # exclude from our query all toys associated w current dog
+    toys_dog_doesnt_have = Toy.objects.exclude(id__in = cat.toys.all().values_list('id'))
     # create instance of the feedingform
     feeding_form = FeedingForm()
     return render(request,
@@ -43,7 +45,8 @@ def add_feeding(request, dog_id):
 
 class DogCreate(CreateView):
     model = Dog
-    fields = '__all__'
+    fields = ['name', 'breed', 'description', 'age']
+
     # success_url = '/dogs/'
 
 class DogUpdate(UpdateView):
