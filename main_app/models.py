@@ -22,7 +22,7 @@ class Dog(models.Model):
 
 class Feeding(models.Model):
     # fields for the feeding model:
-    date = models.DateField()
+    date = models.DateField('feeding date')
     # meal will be represented as b, l or d
     meal = models.CharField(
         max_length=1, 
